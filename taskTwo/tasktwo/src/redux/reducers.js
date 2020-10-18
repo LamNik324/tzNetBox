@@ -1,4 +1,4 @@
-import {SET_INFO, LOADING_INFO, ERROR_INFO} from './action-types';
+import {SET_INFO, LOADING_INFO, ERROR_INFO, DELETE_INFO, EDITABLE_CELL, EDITED_CELL} from './action-types';
 
 const initialState = {
   info: [],
@@ -30,6 +30,24 @@ export function infoReducer(state = initialState, action) {
         info: [],
         loading: false,
         error: action.payload.message
+      }
+    
+    case DELETE_INFO: 
+    return {
+      ...state,
+      info: state.info.filter(el => el[0].value !== action.payload)
+    }
+
+    case EDITABLE_CELL: 
+      return {
+        ...state,
+        editable: action.payload,
+      }
+
+    case EDITED_CELL: 
+      return {
+        ...state,
+        info: state.info
       }
 
     default:
