@@ -1,4 +1,4 @@
-import {SET_INFO, LOADING_INFO, ERROR_INFO, DELETE_INFO, EDITABLE_CELL, EDITED_CELL} from './action-types';
+import {SET_INFO, LOADING_INFO, ERROR_INFO, DELETE_INFO, EDITABLE_CELL, EDITED_CELL, SAVE_INFO} from './action-types';
 
 export function getInfo() {
   return async function (dispatch) {
@@ -16,22 +16,43 @@ export function getInfo() {
 }
 
 export function deleteInfo(id) {
+  console.log('ID', id);
   return async function (dispatch) {
    try {
     const response = await fetch('https://frontend-test.netbox.ru/', {
       method: 'delete',
-      body: id,
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(id),
     })
     const result = await response.status
     if (result === 200) {
-      dispatch(deleteOneInfo())
+      dispatch(deleteOneInfo(id))
     } else {
-      dispatch(errorInfo(response.status));
+      dispatch(errorInfo(result));
     }
   } catch (err) {
     dispatch(errorInfo(err))
     console.log(err)
   }
+  }
+}
+
+export function saveInfo(changes) {
+  return async function(dispatch) {
+    try {
+      const response = await fetch('https://frontend-test.netbox.ru/', {
+        method: 'post',
+        body: changes,
+      })
+      const result = await response.status
+      if (result === 200) {
+        dispatch(saveOneInfo())
+      } else {
+        dispatch(errorInfo(result))
+      }
+    } catch (err) {
+      dispatch(errorInfo(err))
+    }
   }
 }
 
@@ -70,10 +91,17 @@ export function editableCell(boolean) {
     payload: boolean,
   }
 }
-// отредактировать !!!!!
+
 export function editedCell(value) {
   return {
     type: EDITED_CELL,
     payload: value
+  }
+}
+
+export function saveOneInfo(changes) {
+  return {
+    type: SAVE_INFO,
+    payload: changes,
   }
 }

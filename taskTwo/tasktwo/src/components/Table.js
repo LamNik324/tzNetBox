@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import TableRow from './TableRow';
 import Loader from './Loader';
 import Amount from './Amount';
@@ -7,6 +7,11 @@ import {useSelector} from 'react-redux';
 export default function Table() {
   const data = useSelector(state => state.info)
   const [error, setError] = useState(data.error)
+
+  useEffect(() => {
+    setError(data.error)
+  }, [data])
+
   return (
     data.loading ? <Loader /> : (
     <div className="container">

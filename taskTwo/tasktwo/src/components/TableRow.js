@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import Cell from './Cell';
 import {useDispatch} from 'react-redux';
-import {deleteOneInfo, editableCell} from '../redux/actions';
+import {deleteInfo, editableCell} from '../redux/actions';
 
 export default function TableRow(props) {
   const dispatch = useDispatch();
@@ -29,7 +29,7 @@ export default function TableRow(props) {
       </td>
     ))}
     <td>
-      <button onClick={() => dispatch(deleteOneInfo(props.arr[0].value))} className='btn btn-danger mb-1'>Delete</button>
+      <button onClick={() => dispatch(deleteInfo(props.arr[0].value))} className='btn btn-danger mb-1'>Delete</button>
       <button onClick={() => editLine()} className='btn btn-warning'>{update}</button>
       </td>
       </tr>
