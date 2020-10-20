@@ -1,4 +1,4 @@
-import {SET_INFO, LOADING_INFO, ERROR_INFO, DELETE_INFO, EDITABLE_CELL, EDITED_CELL} from './action-types';
+import {SET_INFO, LOADING_INFO, ERROR_INFO, DELETE_INFO, EDITABLE_CELL, EDITED_CELL, SAVE_INFO, ADD_LINE} from './action-types';
 
 const initialState = {
   info: [],
@@ -48,6 +48,17 @@ export function infoReducer(state = initialState, action) {
       return {
         ...state,
         info: state.info
+      }
+
+    case SAVE_INFO:
+      return {
+        ...state,
+      }
+
+    case ADD_LINE:
+      return {
+        ...state,
+        info: [...state.info, action.payload],
       }
 
     default:

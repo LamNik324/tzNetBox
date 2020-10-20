@@ -1,9 +1,7 @@
-import React, {useState, useEffect} from 'react';
-import {useSelector, useDispatch} from 'react-redux';
+import React, {useState} from 'react';
 
 export default function Cell(props) {
-  const [changes, setChanges] = useState(props.cell.value)
-  const dispatch = useDispatch();
+  const [changes, setChanges] = useState(props.cell.value);
 
   const handleSubmit = (e) => {
     setChanges(e)

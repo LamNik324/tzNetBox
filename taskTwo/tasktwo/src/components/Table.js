@@ -2,21 +2,17 @@ import React, { useEffect, useState } from 'react';
 import TableRow from './TableRow';
 import Loader from './Loader';
 import Amount from './Amount';
+import AddLine from './AddLine'
 import {useSelector} from 'react-redux';
 
 export default function Table() {
   const data = useSelector(state => state.info)
-  const [error, setError] = useState(data.error)
-
-  useEffect(() => {
-    setError(data.error)
-  }, [data])
 
   return (
     data.loading ? <Loader /> : (
     <div className="container">
       <div className="d-flex justify-content-center text-danger">
-      <h1>{error}</h1>
+      <h1>{data.error}</h1>
       </div>
     <h1>
       Table
@@ -32,9 +28,11 @@ export default function Table() {
       <th scope='col'>Actions</th>
     </tr>
   </thead>
-      {data && data.info.map((el,index) => <TableRow key={el[index].field} arr={el} />)}
+      {data && data.info.map((el,index) => <TableRow key={index} arr={el} />)}
     </table>
+    <AddLine />
     <Amount />
     </div>)
   )
 }
+

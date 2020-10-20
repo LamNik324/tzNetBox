@@ -1,4 +1,4 @@
-import {SET_INFO, LOADING_INFO, ERROR_INFO, DELETE_INFO, EDITABLE_CELL, EDITED_CELL, SAVE_INFO} from './action-types';
+import {SET_INFO, LOADING_INFO, ERROR_INFO, DELETE_INFO, EDITABLE_CELL, EDITED_CELL, SAVE_INFO, ADD_LINE} from './action-types';
 
 export function getInfo() {
   return async function (dispatch) {
@@ -7,22 +7,19 @@ export function getInfo() {
       const response = await fetch('https://frontend-test.netbox.ru/');
       const result = await response.json()
       dispatch(setInfo(result));
-      console.log(response.data);
     } catch (err) {
       dispatch(errorInfo(err));
-      console.log(err);
     }
   }
 }
 
 export function deleteInfo(id) {
-  console.log('ID', id);
   return async function (dispatch) {
    try {
     const response = await fetch('https://frontend-test.netbox.ru/', {
-      method: 'delete',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(id),
+      // method delete returned 405 error 
+      method: 'POST',
+      body: JSON.stringify({id})
     })
     const result = await response.status
     if (result === 200) {
@@ -32,7 +29,6 @@ export function deleteInfo(id) {
     }
   } catch (err) {
     dispatch(errorInfo(err))
-    console.log(err)
   }
   }
 }
@@ -41,15 +37,30 @@ export function saveInfo(changes) {
   return async function(dispatch) {
     try {
       const response = await fetch('https://frontend-test.netbox.ru/', {
-        method: 'post',
+        method: 'POST',
         body: changes,
       })
       const result = await response.status
       if (result === 200) {
-        dispatch(saveOneInfo())
+        dispatch(saveOneInfo(changes))
       } else {
         dispatch(errorInfo(result))
       }
+    } catch (err) {
+      dispatch(errorInfo(err))
+    }
+  }
+}
+
+export function addLine(line) {
+  return async function(dispatch) {
+    try {
+      const response = await fetch('https://frontend-test.netbox.ru/', {
+        method: 'POST',
+        body: JSON.stringify(line),
+      })
+      const result = await response.status;
+      return result === 200 ? dispatch(addOneLine(line)) : dispatch(errorInfo(result))
     } catch (err) {
       dispatch(errorInfo(err))
     }
@@ -103,5 +114,12 @@ export function saveOneInfo(changes) {
   return {
     type: SAVE_INFO,
     payload: changes,
+  }
+}
+
+export function addOneLine(line) {
+  return {
+    type: ADD_LINE,
+    payload: line,
   }
 }
