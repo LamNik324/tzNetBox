@@ -12,7 +12,7 @@ export default function AddLine() {
     if (values) {
       dispatch(addLine(values))
     }
-  }, [values])
+  }, [values, dispatch])
 
   const handleSubmit = (e) => {
     e.preventDefault();

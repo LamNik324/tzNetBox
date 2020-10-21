@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import TableRow from './TableRow';
 import Loader from './Loader';
 import Amount from './Amount';

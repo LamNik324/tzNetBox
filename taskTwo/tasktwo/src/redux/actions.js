@@ -60,7 +60,12 @@ export function addLine(line) {
         body: JSON.stringify(line),
       })
       const result = await response.status;
-      return result === 200 ? dispatch(addOneLine(line)) : dispatch(errorInfo(result))
+      if (result === 200) {
+        dispatch(addOneLine(line))
+      } else {
+        dispatch(errorInfo(result))
+      }
+      // return result === 200 ? dispatch(addOneLine(line)) : dispatch(errorInfo(result))
     } catch (err) {
       dispatch(errorInfo(err))
     }
