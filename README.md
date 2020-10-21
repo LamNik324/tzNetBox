@@ -2,6 +2,6 @@
 
 # Start project 
 
-### cd taskTwo/taskTwo 
-### yarn 
-### yarn start 
+### * cd taskTwo/taskTwo 
+### * yarn 
+### * yarn start 
